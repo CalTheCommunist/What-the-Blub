@@ -9,16 +9,21 @@ public class GameManager : MonoBehaviour
     [Tooltip("GameManager reference to Pistol Shrimp GameObject")]
     public GameObject pickup_PistolRef;
     [Tooltip("GameManager reference to Pufferfish GameObject")]
-    public GameObject pickup_Puffer;
+    public GameObject pickup_PufferRef;
 
-    private ObjectPool<GameObject> pistolPool;
-    private readonly int poolCap = 8;
+    // player references
+    [SerializeField] private GameObject player_Player1Ref;
+
+    // commented out because they are not being used right now
+//    private ObjectPool<GameObject> pistolPool;
+//    private ObjectPool<GameObject> pufferPool;
+//    private readonly int poolCap = 8;
 
     private void Awake()
     {
         if (call == null)
         {
-            // set instance to self
+            // set instance to self if self is only instance
             call = this;
         }
         else
@@ -26,39 +31,5 @@ public class GameManager : MonoBehaviour
             // if more than one instance then destroy other instances
             Destroy(gameObject);
         }
-
-        pistolPool = new(createFunc: MakeObject, actionOnGet: Grab,
-                        actionOnRelease: Flush, actionOnDestroy: RemoveObject,
-                        collectionCheck: true, defaultCapacity: poolCap, maxSize: poolCap);
-    }
-
-    private void Update()
-    {
-        if (pistolPool.CountActive > poolCap)
-        {
-            return;
-        }
-    }
-
-    private GameObject MakeObject()
-    {
-        GameObject object_to_make = Instantiate(pickup_PistolRef);
-        object_to_make.SetActive(false);
-        return object_to_make;
-    }
-
-    private void Grab(GameObject pooled_pistol)
-    {
-        pooled_pistol.SetActive(true);
-    }
-
-    private void Flush(GameObject pooled_pistol)
-    {
-        pooled_pistol.SetActive(false);
-    }
-
-    private void RemoveObject(GameObject object_to_remove)
-    {
-        Destroy(object_to_remove);
     }
 }

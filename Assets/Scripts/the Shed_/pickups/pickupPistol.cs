@@ -6,4 +6,9 @@ public class PickupPistol : ScriptableObject
     // these are just placeholders and will have actual ones later
     public float A;
     public float B;
+
+    private void Awake()
+    {
+        Debug.Log("i am an active object");
+    }
 }
