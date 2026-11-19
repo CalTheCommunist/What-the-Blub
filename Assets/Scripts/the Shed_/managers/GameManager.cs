@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour
     {
         // this directly queries the system for how many gamepads are connected
         int GamepadCount = InputSystem.devices.OfType<Gamepad>().Count();
-        Debug.Log("Gamepad count: " + GamepadCount);
         // return gamepad amount as integer
         return GamepadCount;
     }

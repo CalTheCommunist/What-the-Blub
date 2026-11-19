@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -15,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 inputVector;
 
-    [SerializeField] float turnSmoothTime = 0.2f;
+    [SerializeField] float turnSmoothTime = 0.36f;
     float turnsmoothVelocity;
     
     [Header("Jump Ground Check")]
