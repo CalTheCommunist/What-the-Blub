@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public bool GameStarted;
 
     // object pools for pickups
+    // maybe move pooling to its own manager?
     private ObjectPool<GameObject> pistolPool;
     private ObjectPool<GameObject> pufferPool;
     private readonly int poolPickupCap = 8;
@@ -30,13 +31,13 @@ public class GameManager : MonoBehaviour
         {
             // set instance to self if self is only instance
             call = this;
-            GameStarted = false;
         }
         else
         {
             // if more than one instance then destroy other instances
             Destroy(gameObject);
         }
+        GameStarted = false;
     }
 
     private void DeviceChange(InputDevice inputDevice, InputDeviceChange inputChange)
