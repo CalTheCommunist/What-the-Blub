@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.InputSystem;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,10 +16,13 @@ public class GameManager : MonoBehaviour
     // player references
     [SerializeField] private GameObject player_Player1Ref;
 
-    // commented out because they are not being used right now
-//    private ObjectPool<GameObject> pistolPool;
-//    private ObjectPool<GameObject> pufferPool;
-//    private readonly int poolCap = 8;
+    // game control variables
+    public bool GameStarted;
+
+    // object pools for pickups
+    private ObjectPool<GameObject> pistolPool;
+    private ObjectPool<GameObject> pufferPool;
+    private readonly int poolPickupCap = 8;
 
     private void Awake()
     {
@@ -25,11 +30,31 @@ public class GameManager : MonoBehaviour
         {
             // set instance to self if self is only instance
             call = this;
+            GameStarted = false;
         }
         else
         {
             // if more than one instance then destroy other instances
             Destroy(gameObject);
         }
+    }
+
+    private void DeviceChange(InputDevice inputDevice, InputDeviceChange inputChange)
+    {
+        CountGamepads();
+    }
+
+    private void OnEnable()
+    {
+        InputSystem.onDeviceChange += DeviceChange;
+    }
+
+    private int CountGamepads()
+    {
+        // this directly queries the system for how many gamepads are connected
+        int GamepadCount = InputSystem.devices.OfType<Gamepad>().Count();
+        Debug.Log("Gamepad count: " + GamepadCount);
+        // return gamepad amount as integer
+        return GamepadCount;
     }
 }

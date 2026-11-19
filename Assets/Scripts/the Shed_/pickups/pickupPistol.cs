@@ -9,6 +9,18 @@ public class PickupPistol : ScriptableObject
 
     private void Awake()
     {
-        Debug.Log("i am an active object");
+        if (GameManager.call.GameStarted == true)
+        {
+            Debug.Log("i am active");
+        }
+        else
+        {
+            Debug.Log("i am inactive");
+        }
+    }
+
+    void Shoot()
+    {
+        return;
     }
 }
