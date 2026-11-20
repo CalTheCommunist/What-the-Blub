@@ -32,10 +32,10 @@ public class GameManager : MonoBehaviour
             // set instance to self if self is only instance
             call = this;
         }
-        else
+        else if (call != null)
         {
             // if more than one instance then destroy other instances
-            Destroy(gameObject);
+            call = this;
         }
         GameStarted = false;
     }
