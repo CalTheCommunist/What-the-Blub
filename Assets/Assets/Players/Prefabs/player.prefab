@@ -286,7 +286,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d6d54f084d59c48a195ca4ad3101dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 8.13
+  moveSpeed: 17.36
+  acceleration: 30
+  deceleration: 30
   isRamming: 0
   BeingKnockedBack: 0
   turnSmoothTime: 0.2

@@ -7,8 +7,11 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody _rb;
     private Transform _camera;
-    [SerializeField] private const float maxSpeed = 10;
+   
     [SerializeField] float moveSpeed = 1;
+    public float acceleration = 30f;
+    public float deceleration = 30f;
+    private float currentSpeed;
     public bool isRamming;
     public bool BeingKnockedBack;
 
@@ -34,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         {
             MovePlayer();
         }
-       
+        Debug.Log(currentSpeed);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -65,8 +68,10 @@ public class PlayerMovement : MonoBehaviour
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnsmoothVelocity, turnSmoothTime);
         }
 
-        float targetSpeed = moveSpeed * inputDir.magnitude * Time.fixedDeltaTime;
-        _rb.Move(transform.position + (transform.forward * targetSpeed), transform.rotation);
+        float targetSpeed = moveSpeed * inputDir.magnitude;
+        float rate = inputDir != Vector2.zero ? acceleration : deceleration;
+        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, rate * Time.fixedDeltaTime);
+        _rb.Move(transform.position + transform.forward * currentSpeed * Time.fixedDeltaTime, transform.rotation);
         
         
     }
