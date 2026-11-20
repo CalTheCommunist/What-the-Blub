@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody _rb;
     private Transform _camera;
+    private BoxCollider _ramcollider;
    
     [SerializeField] float moveSpeed = 1;
     public float acceleration = 30f;
@@ -29,7 +31,9 @@ public class PlayerMovement : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _camera = Camera.main.transform;
+        _ramcollider = GetComponent<BoxCollider>();
     }
+
     void FixedUpdate()
     {
         IsGrounded();
@@ -52,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
             inputVector = Vector2.zero;
         }
     }
+
     public void OnAttack(InputAction.CallbackContext context)
     {
         KnockBack(10);
@@ -72,8 +77,6 @@ public class PlayerMovement : MonoBehaviour
         float rate = inputDir != Vector2.zero ? acceleration : deceleration;
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, rate * Time.fixedDeltaTime);
         _rb.Move(transform.position + transform.forward * currentSpeed * Time.fixedDeltaTime, transform.rotation);
-        
-        
     }
 
     //keeping this incase we need it later, if we don't it'll be removed before the first build.
@@ -83,10 +86,24 @@ public class PlayerMovement : MonoBehaviour
         BeingKnockedBack = false;
         return Physics.SphereCast(transform.position, CheckSphereRadius, -transform.up, out hit, CheckHeight, groundlayer);
     }
-   public void KnockBack(float KnockForce)
-    {
-       
+
+    public void KnockBack(float KnockForce)
+    {       
         _rb.AddForce(-transform.forward * KnockForce, ForceMode.Impulse);
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player") && other != _rb)
+        {
+            if(other.GetComponent<PlayerMovement>() != null)
+            {
+                return;
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
 }
