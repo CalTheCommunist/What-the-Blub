@@ -1,23 +1,23 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
+
 
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody _rb;
     private Transform _camera;
-    
+    [SerializeField] private const float maxSpeed = 10;
     [SerializeField] float moveSpeed = 1;
-    [SerializeField] float Jumpforce = 1;
+    public bool isRamming;
+    public bool BeingKnockedBack;
 
     private Vector2 inputVector;
 
     [SerializeField] float turnSmoothTime = 0.36f;
     float turnsmoothVelocity;
     
-    [Header("Jump Ground Check")]
+    
     [SerializeField] private LayerMask groundlayer;
     [SerializeField] private float CheckSphereRadius = 0.5f;
     [SerializeField]private float CheckHeight = 0.2f;
@@ -29,7 +29,12 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        MovePlayer();
+        IsGrounded();
+        if(BeingKnockedBack == false)
+        {
+            MovePlayer();
+        }
+       
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -44,18 +49,13 @@ public class PlayerMovement : MonoBehaviour
             inputVector = Vector2.zero;
         }
     }
-
-    public void OnJump(InputAction.CallbackContext context)
+    public void OnAttack(InputAction.CallbackContext context)
     {
-        if (IsGrounded())
-        {
-            _rb.AddForce(Vector3.up * Jumpforce, ForceMode.Impulse);
-        }
+        KnockBack(10);
     }
+   
 
-    /// <summary>
-    /// move the player in the relative direction from the camera with smooth player object rotation
-    /// </summary>
+    //'borrowed' the movement script from the 3d platformer, will edit for this game.
     void MovePlayer()
     {
         Vector2 inputDir = inputVector.normalized;
@@ -67,18 +67,21 @@ public class PlayerMovement : MonoBehaviour
 
         float targetSpeed = moveSpeed * inputDir.magnitude * Time.fixedDeltaTime;
         _rb.Move(transform.position + (transform.forward * targetSpeed), transform.rotation);
+        
+        
     }
 
+    //keeping this incase we need it later, if we don't it'll be removed before the first build.
     private bool IsGrounded()
     {
         RaycastHit hit;
+        BeingKnockedBack = false;
         return Physics.SphereCast(transform.position, CheckSphereRadius, -transform.up, out hit, CheckHeight, groundlayer);
     }
-
-    void OnDrawGizmosSelected()
+   public void KnockBack(float KnockForce)
     {
-        // Display the explosion radius when selected
-        Gizmos.color = Color.blueViolet;
-        Gizmos.DrawWireSphere(transform.position + (-transform.up * CheckHeight), CheckSphereRadius);
+       
+        _rb.AddForce(-transform.forward * KnockForce, ForceMode.Impulse);
     }
+    
 }
