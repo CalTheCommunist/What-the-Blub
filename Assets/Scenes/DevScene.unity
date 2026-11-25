@@ -360,7 +360,7 @@ Transform:
   m_GameObject: {fileID: 1919419900}
   serializedVersion: 2
   m_LocalRotation: {x: -0.38406911, y: 0.0063694525, z: -0.0026467678, w: -0.9232786}
-  m_LocalPosition: {x: 92.33239, y: 75.97886, z: -55.74356}
+  m_LocalPosition: {x: 88, y: 51.2, z: -53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -484,9 +484,9 @@ MonoBehaviour:
   m_JoinAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Join
       m_Type: 0
-      m_ExpectedControlType: 
+      m_ExpectedControlType: Delta
       m_Id: b7fffa65-68f2-4344-9292-7e7ec12bae9e
       m_Processors: 
       m_Interactions: 

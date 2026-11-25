@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6998118651718172909}
   - component: {fileID: 8410249626132961316}
   - component: {fileID: 3312345632842025078}
+  - component: {fileID: 5430476006476312717}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -164,7 +165,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &8410249626132961316
 MonoBehaviour:
@@ -319,3 +320,16 @@ MonoBehaviour:
     m_Bits: 8
   CheckSphereRadius: 0.5
   CheckHeight: 0.2
+--- !u!114 &5430476006476312717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5450682461070739220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca418a913cbe7c14aa864abe58fa91d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ramMechanic
+  _ramcollider: {fileID: 7962646359934196891}

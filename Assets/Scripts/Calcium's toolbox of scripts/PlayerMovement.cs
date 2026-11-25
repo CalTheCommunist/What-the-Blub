@@ -8,11 +8,12 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody _rb;
     private Transform _camera;
-    private BoxCollider _ramcollider;
+    
    
     [SerializeField] float moveSpeed = 1;
     public float acceleration = 30f;
     public float deceleration = 30f;
+    private float targetSpeed;
     private float currentSpeed;
     public bool isRamming;
     public bool BeingKnockedBack;
@@ -29,9 +30,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        isRamming = false;
         _rb = GetComponent<Rigidbody>();
         _camera = Camera.main.transform;
-        _ramcollider = GetComponent<BoxCollider>();
+        
     }
 
     void FixedUpdate()
@@ -42,6 +44,14 @@ public class PlayerMovement : MonoBehaviour
             MovePlayer();
         }
         Debug.Log(currentSpeed);
+        if(currentSpeed == targetSpeed)
+        {
+            isRamming = true;
+        }
+        else
+        {
+            isRamming = false;
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -57,10 +67,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        KnockBack(10);
-    }
+
    
 
     //'borrowed' the movement script from the 3d platformer, will edit for this game.
@@ -73,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnsmoothVelocity, turnSmoothTime);
         }
 
-        float targetSpeed = moveSpeed * inputDir.magnitude;
+        targetSpeed = moveSpeed * inputDir.magnitude;
         float rate = inputDir != Vector2.zero ? acceleration : deceleration;
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, rate * Time.fixedDeltaTime);
         _rb.Move(transform.position + transform.forward * currentSpeed * Time.fixedDeltaTime, transform.rotation);
@@ -87,23 +94,10 @@ public class PlayerMovement : MonoBehaviour
         return Physics.SphereCast(transform.position, CheckSphereRadius, -transform.up, out hit, CheckHeight, groundlayer);
     }
 
-    public void KnockBack(float KnockForce)
+    public void KnockBack(float KnockForce, Vector3 Direction)
     {       
-        _rb.AddForce(-transform.forward * KnockForce, ForceMode.Impulse);
+        _rb.AddForce(Direction * KnockForce, ForceMode.Impulse);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player") && other != _rb)
-        {
-            if(other.GetComponent<PlayerMovement>() != null)
-            {
-                return;
-            }
-            else
-            {
-                return;
-            }
-        }
-    }
+    
 }
