@@ -6,12 +6,16 @@ public class ramMechanic : MonoBehaviour
     private PlayerMovement _playerMovement;
     private PlayerMovement _OtherPLayerMovement;
     Vector3 pushDir;
+    private bool canRam;
 
 
-    private float CDbase = 3f;
+    private float CDbase = 4f;
+    private float Cooldown;
 
     void Start()
     {
+        Cooldown = CDbase;
+        canRam = false;
         _playerMovement = GetComponent<PlayerMovement>();
         
         _ramcollider.enabled = false;
@@ -20,19 +24,29 @@ public class ramMechanic : MonoBehaviour
    
     void Update()
     {
-        if (_playerMovement.isRamming == true)
+        if(_playerMovement.isRamming == true)
         {
             _ramcollider.enabled = true;
         }
-        else if (_playerMovement.isRamming == false)
+        else
         {
             _ramcollider.enabled = false;
+        }
+        //cooldown functionality
+        if (canRam == false)
+        {
+            Cooldown = Cooldown - Time.deltaTime;
+            if(Cooldown <= 0)
+            {
+                canRam =true;
+                Cooldown = CDbase;
+            }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_playerMovement.isRamming == true)
+        if (canRam == true && _playerMovement.isRamming == true)
         {
             if (other.gameObject.CompareTag("Player") && other != this)
             {
