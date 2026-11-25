@@ -97,6 +97,10 @@ public class PlayerMovement : MonoBehaviour
     public void KnockBack(float KnockForce, Vector3 Direction)
     {       
         _rb.AddForce(Direction * KnockForce, ForceMode.Impulse);
+        if(BeingKnockedBack == true)
+        {
+            return;
+        }
     }
 
     

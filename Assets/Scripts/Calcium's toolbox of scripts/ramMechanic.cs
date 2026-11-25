@@ -46,7 +46,7 @@ public class ramMechanic : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (canRam == true && _playerMovement.isRamming == true)
+        if (canRam == true && _playerMovement.isRamming == true && _playerMovement.BeingKnockedBack == false)
         {
             if (other.gameObject.CompareTag("Player") && other != this)
             {
@@ -54,7 +54,9 @@ public class ramMechanic : MonoBehaviour
                 {
                     _OtherPLayerMovement = other.GetComponent<PlayerMovement>();
                     pushDir = this.transform.forward;
-                    otherMovement.KnockBack(10, pushDir);
+                    otherMovement.KnockBack(5, pushDir);
+                    otherMovement.BeingKnockedBack = true;
+                    
                 }
                 else
                 {
