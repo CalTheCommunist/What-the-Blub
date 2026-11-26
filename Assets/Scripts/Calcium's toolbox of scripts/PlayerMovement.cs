@@ -1,15 +1,11 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody _rb;
     private Transform _camera;
-    
-   
+
     [SerializeField] float moveSpeed = 1;
     public float acceleration = 30f;
     public float deceleration = 30f;
@@ -36,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
         isRamming = false;
         _rb = GetComponent<Rigidbody>();
         _camera = Camera.main.transform;
-        
+        GameManager.call.playerRefList.Add(this);
     }
 
     void FixedUpdate()
@@ -75,10 +71,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-   
-
-   
     void MovePlayer()
     {
         Vector2 inputDir = inputVector.normalized;
@@ -92,7 +84,6 @@ public class PlayerMovement : MonoBehaviour
         float rate = inputDir != Vector2.zero ? acceleration : deceleration;
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, rate * Time.fixedDeltaTime);
         _rb.Move(transform.position + transform.forward * currentSpeed * Time.fixedDeltaTime, transform.rotation);
-      
     }
 
     //keeping this incase we need it later, if we don't it'll be removed before the first build.
@@ -115,6 +106,4 @@ public class PlayerMovement : MonoBehaviour
     {       
         _rb.AddForce(Direction * KnockForce, ForceMode.Impulse);
     }
-
-    
 }

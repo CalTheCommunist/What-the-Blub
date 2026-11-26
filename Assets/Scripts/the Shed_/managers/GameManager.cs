@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     // player references
     [SerializeField] private GameObject player_Player1Ref;
-    [SerializeField] private List<GameObject> playerRefs = new List<GameObject>{};
+    public List<PlayerMovement> playerRefList = new List<PlayerMovement>{};
 
     // game control variables
     public bool GameStarted;
@@ -40,15 +40,6 @@ public class GameManager : MonoBehaviour
             call = this;
         }
         GameStarted = false;
-    }
-
-    private void Update()
-    {
-        playerRefs.Add(GameObject.FindWithTag("Player"));
-        foreach(GameObject obj in playerRefs)
-        {
-            Debug.Log(obj);
-        }
     }
 
     private void DeviceChange(InputDevice inputDevice, InputDeviceChange inputChange)
