@@ -63,4 +63,9 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("MainScene");
     }
+    public void QuitTheGame()
+    {
+        Debug.Log("Don't come back. *door slams shut*");
+        Application.Quit();
+    }
 }
