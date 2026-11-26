@@ -42,11 +42,10 @@ public class PlayerMovement : MonoBehaviour
             isRamming = false;
         }
         IsGrounded();
-        if(BeingKnockedBack == false)
+        if (BeingKnockedBack == false)
         {
             MovePlayer();
         }
-        Debug.Log(currentSpeed);
         if(currentSpeed >= maxSpeed)
         {
             isRamming = true;

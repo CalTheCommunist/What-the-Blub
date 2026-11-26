@@ -3,6 +3,7 @@ using UnityEngine.Pool;
 using UnityEngine.InputSystem;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -57,5 +58,9 @@ public class GameManager : MonoBehaviour
         int GamepadCount = InputSystem.devices.OfType<Gamepad>().Count();
         // return gamepad amount as integer
         return GamepadCount;
+    }
+    public void LoadMainGame()
+    {
+        SceneManager.LoadScene("MainScene");
     }
 }
