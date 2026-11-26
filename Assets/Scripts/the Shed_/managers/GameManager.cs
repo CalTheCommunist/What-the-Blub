@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     public GameObject pickup_PufferRef;
 
     // player references
-    [SerializeField] private GameObject player_Player1Ref;
     public List<PlayerMovement> playerRefList = new List<PlayerMovement>{};
 
     // game control variables
