@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public float deceleration = 30f;
     private float targetSpeed;
     private float currentSpeed;
+    private float maxSpeed = 17.36f;
     public bool isRamming;
     public bool BeingKnockedBack;
 
@@ -44,12 +45,13 @@ public class PlayerMovement : MonoBehaviour
             MovePlayer();
         }
         Debug.Log(currentSpeed);
-        if(currentSpeed == targetSpeed)
+        if(currentSpeed == maxSpeed)
         {
             isRamming = true;
         }
-        else
+        else if(currentSpeed != maxSpeed) 
         {
+        
             isRamming = false;
         }
     }
@@ -84,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
         float rate = inputDir != Vector2.zero ? acceleration : deceleration;
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, rate * Time.fixedDeltaTime);
         _rb.Move(transform.position + transform.forward * currentSpeed * Time.fixedDeltaTime, transform.rotation);
+        Debug.Log("current speed = "+currentSpeed);
     }
 
     //keeping this incase we need it later, if we don't it'll be removed before the first build.
@@ -99,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         _rb.AddForce(Direction * KnockForce, ForceMode.Impulse);
         if(BeingKnockedBack == true)
         {
-            return;
+            isRamming = false;
         }
     }
 
