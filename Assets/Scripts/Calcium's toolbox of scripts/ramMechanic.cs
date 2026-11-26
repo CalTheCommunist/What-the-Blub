@@ -55,7 +55,7 @@ public class ramMechanic : MonoBehaviour
                     _OtherPLayerMovement = other.GetComponent<PlayerMovement>();
                     pushDir = this.transform.forward;
                     _OtherPLayerMovement.KnockBack(10, pushDir);
-                    _OtherPLayerMovement.BeingKnockedBack = true;
+                    otherMovement.BeingKnockedBack = true;
                     
                 }
                 else

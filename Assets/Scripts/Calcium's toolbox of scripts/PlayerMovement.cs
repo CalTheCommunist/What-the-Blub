@@ -15,9 +15,11 @@ public class PlayerMovement : MonoBehaviour
     public float deceleration = 30f;
     private float targetSpeed;
     private float currentSpeed;
-    private float maxSpeed = 17.36f;
+    private float maxSpeed = 17f;
     public bool isRamming;
     public bool BeingKnockedBack;
+    private float RamStunTime = 2f;
+    private float RamStunTimer = 0;
 
     private Vector2 inputVector;
 
@@ -39,13 +41,17 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(BeingKnockedBack == true)
+        {
+            isRamming = false;
+        }
         IsGrounded();
         if(BeingKnockedBack == false)
         {
             MovePlayer();
         }
         Debug.Log(currentSpeed);
-        if(currentSpeed == maxSpeed)
+        if(currentSpeed >= maxSpeed)
         {
             isRamming = true;
         }
@@ -72,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
    
 
-    //'borrowed' the movement script from the 3d platformer, will edit for this game.
+   
     void MovePlayer()
     {
         Vector2 inputDir = inputVector.normalized;
@@ -93,17 +99,21 @@ public class PlayerMovement : MonoBehaviour
     private bool IsGrounded()
     {
         RaycastHit hit;
-        BeingKnockedBack = false;
+        if(BeingKnockedBack == true)
+        {
+            RamStunTimer = RamStunTimer + Time.deltaTime;
+            if(RamStunTimer >= RamStunTime)
+            {
+            BeingKnockedBack = false;
+                RamStunTimer = 0;
+            }
+        }
         return Physics.SphereCast(transform.position, CheckSphereRadius, -transform.up, out hit, CheckHeight, groundlayer);
     }
 
     public void KnockBack(float KnockForce, Vector3 Direction)
     {       
         _rb.AddForce(Direction * KnockForce, ForceMode.Impulse);
-        if(BeingKnockedBack == true)
-        {
-            isRamming = false;
-        }
     }
 
     
