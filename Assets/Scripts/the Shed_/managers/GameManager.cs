@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     // player references
     [SerializeField] private GameObject player_Player1Ref;
-    private List<GameObject> playerRefs = new List<GameObject>{};
+    [SerializeField] private List<GameObject> playerRefs = new List<GameObject>{};
 
     // game control variables
     public bool GameStarted;

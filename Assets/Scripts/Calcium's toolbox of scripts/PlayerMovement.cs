@@ -92,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
         float rate = inputDir != Vector2.zero ? acceleration : deceleration;
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, rate * Time.fixedDeltaTime);
         _rb.Move(transform.position + transform.forward * currentSpeed * Time.fixedDeltaTime, transform.rotation);
-        Debug.Log("current speed = "+currentSpeed);
+      
     }
 
     //keeping this incase we need it later, if we don't it'll be removed before the first build.
