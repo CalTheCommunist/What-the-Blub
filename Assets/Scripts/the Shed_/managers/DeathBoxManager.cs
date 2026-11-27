@@ -13,6 +13,7 @@ public class DeathBoxManager : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            GameManager.call.playerRefList.Remove(other.gameObject.GetComponent<PlayerMovement>());
             other.gameObject.SetActive(false);
         }
     }

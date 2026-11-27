@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -59,10 +59,32 @@ public class GameManager : MonoBehaviour
         // return gamepad amount as integer
         return GamepadCount;
     }
+
     public void LoadMainGame()
     {
         SceneManager.LoadScene("MainScene");
+        GameStarted = true;
     }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+        GameStarted = false;
+    }
+
+    private void FixedUpdate()
+    {
+        if (playerRefList.Count == 4)
+        {
+            return;
+        }
+        else if(playerRefList.Count == 1)
+        {
+            SceneManager.LoadScene("VictoryScene");
+            GameStarted = false;
+        }
+    }
+
     public void QuitTheGame()
     {
         Debug.Log("Don't come back. *door slams shut*");
